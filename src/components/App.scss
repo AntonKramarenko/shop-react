@@ -1,0 +1,31 @@
+@import '../utils/colors';
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    color: $font-color-main;
+}
+
+body{
+    background-color: $background-color;
+}
+
+#root {
+    width: 100%;
+}
+
+.app{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.wrap{
+    width: 1440px;
+    max-width: 100%;
+    padding: 0 100px;
+    display: flex;
+    flex-direction: column;
+    font-size: 18px;
+}
