@@ -1,6 +1,34 @@
+import './Header.scss'
+import { NavLink } from "react-router-dom";
+import Logo from '../../assets/img/header_logo.png'
+import SelectCurrency from '../selectCurrency/SelectCurrency';
+import Basket from '../basket/Basket';
 
-export default function Header() {
+interface HeaderProps{
+  category: any
+}
+
+export  const Header:React.FC<HeaderProps> =(props) =>  {
+
+  
+
   return (
-    <div>Header</div>
+    <div className="navbar">
+      <div className="container">
+        <div className="navbar__categories">        
+              <NavLink to='/all'>All</NavLink>        
+              <NavLink to='/clothes'>Clothes</NavLink>        
+              <NavLink to='/tech'>Tech</NavLink>
+        </div>
+        <div className="navbar__logo">
+            <img src={Logo} alt="Logo" />
+        </div>
+       
+        <div className="navbar__actions">
+          <SelectCurrency/>
+          <Basket/>
+        </div>
+      </div>
+    </div>
   )
 }

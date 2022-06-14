@@ -1,0 +1,52 @@
+@import '../../utils/colors.scss';
+
+.navbar {
+    display: flex;
+    height: 80px;
+    
+    &__categories{
+        display: flex;
+        text-transform: uppercase;
+        color: $font-color-main;
+        font-weight: 400;
+        align-items: center;
+        
+    }
+
+    &__categories a {
+        margin-right: 16px;
+        text-decoration: none;
+        font-size: 16px;
+        position: relative;
+    }
+
+    &__actions{
+        width: 300px;
+        display: flex;
+        justify-content: flex-end;
+        position: relative;
+    }
+
+}
+.active {
+    color: $font-color-hover;
+    font-weight: 600;
+    align-items: center;
+}
+
+.active:before {
+    content: '';
+   width: 100%;
+   height: 1px;
+   background-color: $font-color-hover;
+   position: absolute;
+   bottom: -20px;
+}
+
+.container{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+}

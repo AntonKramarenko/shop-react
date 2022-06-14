@@ -1,0 +1,96 @@
+@import '../../utils/colors.scss';
+
+.busket {
+    width: 30px;
+   
+
+    .isActive {
+        display: block;
+    }
+
+    &__header {
+        display: flex;
+        height: 40px;
+        cursor: pointer;
+        justify-content: center;
+        align-items: center;
+    }
+   
+
+    &__title{
+        font-weight: 500;
+        font-size: 16px;
+        margin-bottom: 20px;
+    }
+
+    &__body{
+        width: 350px;
+        padding: 20px;
+        display: none;
+        position: absolute;
+        border-top: 0;
+        left: -34px;
+        right: 0;
+        background-color: #FFFFFF;
+        z-index: 1000;
+    }
+
+    &__item {
+        display: block;
+        cursor: pointer;
+        font-weight: 500;
+        line-height: 24px;
+        padding: 8px;
+        justify-content: center;
+        padding: 10px  20px ;
+    }
+
+    &__item:hover {
+        background-color: #EEEEEE;
+    }
+
+    &__count{
+        display: flex;
+        justify-content: center;
+        width: 22px;
+        height: 22px;
+        line-height: 18px;
+        border-radius: 50%;
+        font-size: 14px;
+        color: #FFFFFF;
+        background-color: black;
+        position: absolute;
+         top: 1px;
+         right: -7px;
+    }
+
+    &__price{
+        width: 100%;
+        font-weight: 500;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    &__btns{
+        margin: 20px 0;
+        display: flex;
+        justify-content: space-between;
+        text-transform: uppercase;
+    }
+
+    &__btn{
+        width: 140px;
+        height: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #1D1F22;
+        font-weight: 600;
+    }
+
+    &__btn:hover {
+        transition: background-color 0.5s;
+        color: #FFFFFF;
+        background-color: $font-color-hover;
+    }
+}
