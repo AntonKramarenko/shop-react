@@ -10,15 +10,19 @@ interface HeaderProps{
 
 export  const Header:React.FC<HeaderProps> =(props) =>  {
 
-  
-
   return (
     <div className="navbar">
       <div className="container">
-        <div className="navbar__categories">        
-              <NavLink to='/all'>All</NavLink>        
-              <NavLink to='/clothes'>Clothes</NavLink>        
-              <NavLink to='/tech'>Tech</NavLink>
+        <div className="navbar__categories">     
+          {props.category.map((item: any) => {
+            return (
+              <NavLink  
+              to={`/${item.name}`} 
+              key={item.name}
+              >
+                {item.name}
+              </NavLink>  
+             )})}   
         </div>
         <div className="navbar__logo">
             <img src={Logo} alt="Logo" />

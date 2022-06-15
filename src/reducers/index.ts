@@ -1,10 +1,10 @@
 import { applyMiddleware, combineReducers, createStore } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from "redux-thunk";
-import appReducer from "./selectReducer";
+import currentCurrency from "./currentCurrency";
 
 const rootReducer = combineReducers({
-  selectComponent: appReducer
+  currentCurrency: currentCurrency
 }
 )
 

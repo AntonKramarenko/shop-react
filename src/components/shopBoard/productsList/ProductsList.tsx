@@ -1,16 +1,30 @@
 import React from 'react'
 import './ProductsList.scss'
-import ProductItem from './productItem/ProductItem'
+import {ProductItem} from './productItem/ProductItem'
 
-export default function ProductsList() {
+interface ProductsListProps {
+  products: any
+}
+
+export const ProductsList: React.FC<ProductsListProps> = (props) => {
+
   return (
     <div className='productList'>
-        <ProductItem/>
-        <ProductItem/>
-        <ProductItem/>
-        <ProductItem/>
-        <ProductItem/>
-        <ProductItem/>    
+        {
+          props.products.map((item:any) => {
+            return (
+              <ProductItem 
+              id={item.id}
+              key={item.id}
+              gallery ={item.gallery}
+              name={item.name} 
+              price={item.prices}
+              inStock={item.inStock}/>
+            )
+          })
+        } 
     </div>
   )
 }
+
+

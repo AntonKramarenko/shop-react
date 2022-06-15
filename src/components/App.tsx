@@ -4,9 +4,11 @@ import { useEffect, useState } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { GET_ALL_CATEGORY } from "../query/getCategory";
 import {Header} from './header/Header';
-import ShopBoard from './shopBoard/ShopBoard';
-
-function App() {
+import {ShopBoard} from './shopBoard/ShopBoard';
+import {Loader} from './loader/Loader'
+import { ProductPage } from './productPage/ProductPage';
+ 
+export default function App()  {
 
   const {data, loading, error} = useQuery(GET_ALL_CATEGORY)
   const [categories, setCategories] = useState([])
@@ -19,27 +21,32 @@ useEffect(() => {
 },[data])
 
 
-if(!loading){
-  console.log(categories)
+if(loading) {
+  return(
+    <Loader />
+  )
 }
 
-  return (
+return (
     <BrowserRouter>
         <div className="app">
             <div className="wrap">
-              <Header category={data}/>
+              <Header category={categories}/>
                  <Routes>
-                  <Route path="/all"   element={<ShopBoard/>}/>
-                   <Route path="/clothes" element={<ShopBoard/>}/>
-                   <Route path="/tech" element={<ShopBoard/>}/>
-                   <Route path="/basket" element={<ShopBoard/>}/>
-                   <Route path="*" element={ <Navigate to="/all" /> } />
+                  {
+                    categories.map((item:any) => {
+                      
+                      return (
+                       <Route path={`/${item.name}`} key={item.name}  element={<ShopBoard title={item.name}  products={item.products}/>}/>
+                      )
+                     })
+                  }
+                   <Route path="/basket" element={<div>Basket</div>}/>
+                   <Route path="/productCard" element={<ProductPage/>}/>
+                   {/* <Route path="*" element={ <Navigate to="/category/" /> } /> */}
                 </Routes>                
             </div> 
          </div>
     </BrowserRouter>
-    
-  );
+)
 }
-
-export default App;

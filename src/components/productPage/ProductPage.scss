@@ -1,0 +1,115 @@
+@import '../../utils/colors.scss';
+
+.productPage {
+    margin-top: 60px;
+    display: flex;
+    
+
+    &__imgs{
+        display: flex;
+    }
+
+    &__img {
+        width: 80px;
+        height: 80px;
+        border: 1px solid black;
+        margin-bottom: 30px;
+    }
+
+    &__img-main{
+        margin: 0 100px 0 50px;
+        width: 600px;
+        height: 500px;
+        border: 1px solid black;
+    }
+
+    &__info {
+        width: 300px;
+        height: 595px;
+       
+    }
+
+    &__title{
+        font-size: 18px;
+        font-family: $font-family-description;
+        font-weight: 700;
+    }
+
+    &__brandName {
+        font-weight: 600;
+        font-size: 30px;
+
+        &-title{
+            font-weight: 400;
+            font-size: 30px;
+            margin-bottom: 40px;
+        }
+
+    }
+
+    &__size {
+        &-items{
+            display: flex;
+            flex-wrap: wrap;
+            margin: 8px 0 24px;
+        }
+
+        &-item{
+            text-transform: uppercase;
+            font-size: 16px;
+            font-weight: 400;
+            width: 69px;
+            height: 45px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid black;
+            margin-right: 8px
+        }
+    }
+
+    &__color{
+
+        &-items{
+            display: flex;
+            flex-wrap: wrap;
+            margin: 8px 0 24px;
+        }
+
+        &-item{
+            width: 32px;
+            height: 32px;
+            border: 1px solid black;
+            margin-right: 10px
+        }
+    }
+
+    &__price{
+       
+
+        &-count{
+            font-size: 24px;
+            font-weight: 700;
+            margin: 18px 0 24px;
+        }
+    }
+
+    &__btn{
+        width: 100%;
+        height: 48px;
+        text-transform: uppercase;
+        color: $background-color;
+        background-color: $font-color-hover;
+        border: none;
+        margin-bottom: 40px;
+    }
+   
+
+    &__description {
+        font-weight: 400;
+        font-family: $font-family-description;
+        font-size: 16px;
+        line-height: 159.96%;
+    }
+   
+}

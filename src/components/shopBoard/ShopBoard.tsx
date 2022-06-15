@@ -1,13 +1,18 @@
 import React from 'react'
-import SelectCurrency from '../selectCurrency/SelectCurrency'
-import ProductsList from './productsList/ProductsList'
+import {ProductsList} from './productsList/ProductsList'
 import './ShopBoard.scss'
 
-export default function ShopBoard() {
+interface ShopBoardProps {
+  products: any,
+  title: string
+}
+
+export  const  ShopBoard: React.FC<ShopBoardProps> = (props) => {
+  
   return (
     <div className='shopBoard'>
-        <h3 className="shopBoard__title">Title</h3>
-        <ProductsList/>
+        <h3 className="shopBoard__title">{props.title}</h3>
+        <ProductsList products={props.products}/>
     </div>
   )
 }
