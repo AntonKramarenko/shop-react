@@ -1,0 +1,91 @@
+.basketThingItem{
+    display: flex;
+    justify-content: space-between;
+
+    
+    &__brand{
+        
+        font-weight: 600;
+        margin-bottom: 16px;
+    }
+
+    &__name {
+        
+        font-weight: 400px;
+        margin-bottom: 20px;
+    }
+
+    &__price{
+        font-weight: 700;
+        margin-bottom: 20px;
+    }
+
+    &__title {
+        text-transform: uppercase;
+        font-weight: 700;
+        font-size: 1.1rem;
+    }
+
+    &__sizes{
+        display: flex;
+        margin: 10px 0 16px 0;
+        flex-wrap: wrap;
+
+        &-item{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            margin-right: 8px;
+            width: 3rem;
+            height: 2rem;
+            border: 1px solid #1D1F22;
+        }
+    }
+
+    &__colors{
+        display: flex;
+        
+        &-item{
+            width: 32px;
+            height: 32px;
+            background-color: #0F6450;
+            margin: 12px  8px 0 0;
+        }
+    }
+
+    &__countBox{
+        display: flex;
+    }
+
+    &__counts{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 45px;
+        margin-right: 24px;
+        
+
+        &-btn{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 45px;
+            border: 1px solid black;
+        }
+        &-count{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+       
+    }
+
+    &__img{
+        width: 200px;
+        height: 100%;
+        background-color: green;
+    }
+}

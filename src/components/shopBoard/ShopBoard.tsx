@@ -12,7 +12,7 @@ export  const  ShopBoard: React.FC<ShopBoardProps> = (props) => {
   return (
     <div className='shopBoard'>
         <h3 className="shopBoard__title">{props.title}</h3>
-        <ProductsList products={props.products}/>
+        <ProductsList products={props.products} title={props.title} />
     </div>
   )
 }

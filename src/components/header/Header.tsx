@@ -2,7 +2,7 @@ import './Header.scss'
 import { NavLink } from "react-router-dom";
 import Logo from '../../assets/img/header_logo.png'
 import SelectCurrency from '../selectCurrency/SelectCurrency';
-import Basket from '../basket/Basket';
+import Basket from '../basket/basketBox/BasketBox';
 
 interface HeaderProps{
   category: any

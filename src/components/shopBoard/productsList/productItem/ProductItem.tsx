@@ -1,5 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
+import { Link, NavLink } from 'react-router-dom'
 import './ProductItem.scss'
 
 interface ProductItemProps {
@@ -7,16 +8,18 @@ interface ProductItemProps {
   price:any,
   gallery: any,
   inStock:boolean,
-  id: string
+  id: string,
+  category: string
 }
 
 export const ProductItem: React.FC<ProductItemProps> = (props)  => {
-
   const currency = useSelector((state:any) => state.currentCurrency.currentCurrency)
 
-  if(props.inStock){
+
+  if(!props.inStock){
     return (
       <div className='productItem'>
+         <NavLink to={'/productPage/'+ props.id}className='productItem__link' >
           <div className='productItem__img'>
               <div className='productItem__img-outOfStock'></div>
               <span className='productItem__title-outOfStock outOfStock'>Out of Stock</span>
@@ -31,12 +34,15 @@ export const ProductItem: React.FC<ProductItemProps> = (props)  => {
                 }})
             }
           </div>
+          </NavLink>
       </div>
     )
   }
 
   return (
+
     <div className='productItem'>
+      <NavLink to={'/productPage/'+ props.id}className='productItem__link' >
         <div className='productItem__img'>
             <img src={props.gallery[0]} alt="" />
         </div>
@@ -49,6 +55,8 @@ export const ProductItem: React.FC<ProductItemProps> = (props)  => {
                 }})
             }
         </div>
+        </NavLink>
     </div>
+  
   )
 }

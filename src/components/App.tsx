@@ -7,6 +7,7 @@ import {Header} from './header/Header';
 import {ShopBoard} from './shopBoard/ShopBoard';
 import {Loader} from './loader/Loader'
 import { ProductPage } from './productPage/ProductPage';
+import { Basket } from './basket/Basket';
  
 export default function App()  {
 
@@ -18,7 +19,7 @@ useEffect(() => {
   if(!loading){
     setCategories( data.categories)
   }
-},[data])
+},[data,loading])
 
 
 if(loading) {
@@ -34,16 +35,20 @@ return (
               <Header category={categories}/>
                  <Routes>
                   {
-                    categories.map((item:any) => {
-                      
+                    categories.map((item:any, index:number) => {
+                      if(index===0){
+                        return (
+                          <>
+                           <Route path={`/${item.name}`} key={item.name}  element={<ShopBoard title={item.name}  products={item.products}/>}/>
+                           <Route path="*" key={index} element={ <Navigate to={`/${item.name}`}   /> } />
+                          </>)}
                       return (
                        <Route path={`/${item.name}`} key={item.name}  element={<ShopBoard title={item.name}  products={item.products}/>}/>
                       )
                      })
                   }
-                   <Route path="/basket" element={<div>Basket</div>}/>
-                   <Route path="/productCard" element={<ProductPage/>}/>
-                   {/* <Route path="*" element={ <Navigate to="/category/" /> } /> */}
+                   <Route path="/basket" element={<Basket/>}/>
+                   <Route path="/productPage/:id" element={<ProductPage />}/>
                 </Routes>                
             </div> 
          </div>
