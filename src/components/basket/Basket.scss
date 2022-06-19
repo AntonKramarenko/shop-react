@@ -2,12 +2,20 @@
 .basket{
     font-size: 1.89rem;
 
+    &__title{
+        margin-bottom: 24px;
+    }
+
+    &__items{
+        height: 620px;
+        overflow: scroll;
+    }
 
     &__line{
         width:100% ;
         height: 1px;
         background-color: #E5E5E5;
-        margin: 24px 0;
+        
     }
 
     &_info{

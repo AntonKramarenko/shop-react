@@ -39,11 +39,11 @@ return (
                       if(index===0){
                         return (
                           <>
-                           <Route path={`/${item.name}`} key={item.name}  element={<ShopBoard title={item.name}  products={item.products}/>}/>
-                           <Route path="*" key={index} element={ <Navigate to={`/${item.name}`}   /> } />
+                           <Route path={`/${item.name}`} key={index}  element={<ShopBoard title={item.name}  products={item.products}/>}/>
+                           <Route path="*" key={`${item.name}${index}`} element={ <Navigate to={`/${item.name}`}   /> } />
                           </>)}
                       return (
-                       <Route path={`/${item.name}`} key={item.name}  element={<ShopBoard title={item.name}  products={item.products}/>}/>
+                       <Route path={`/${item.name}`} key={index}  element={<ShopBoard title={item.name}  products={item.products}/>}/>
                       )
                      })
                   }

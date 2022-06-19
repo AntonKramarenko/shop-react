@@ -53,7 +53,6 @@ function startSelectAttributes(data:any){
 function addToCardHandler(id:string, selectAttr:any){
     let storage:any = localStorage.getItem('basket')
     let currentStorage =  JSON.parse(storage)
-
     const addToBasket = [{[id]: selectAttr}]
 
    if(storage){

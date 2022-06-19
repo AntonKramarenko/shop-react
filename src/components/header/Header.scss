@@ -10,6 +10,21 @@
         color: $font-color-main;
         font-weight: 400;
         align-items: center;
+
+        .active {
+            color: $font-color-hover;
+            font-weight: 600;
+            align-items: center;
+        }
+        
+        .active:before {
+            content: '';
+           width: 100%;
+           height: 1px;
+           background-color: $font-color-hover;
+           position: absolute;
+           bottom: -20px;
+        }
         
     }
 
@@ -28,20 +43,7 @@
     }
 
 }
-.active {
-    color: $font-color-hover;
-    font-weight: 600;
-    align-items: center;
-}
 
-.active:before {
-    content: '';
-   width: 100%;
-   height: 1px;
-   background-color: $font-color-hover;
-   position: absolute;
-   bottom: -20px;
-}
 
 .container{
     width: 100%;

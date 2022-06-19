@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom';
 import BasketLogo from '../../../assets/img/shoping_list.png'
 import { BasketThingItem } from '../basketThingItem/BasketThingItem';
@@ -6,14 +6,17 @@ import './BasketBox.scss'
 
 export default function Basket() {
 
+    let storage: string | null = localStorage.getItem('basket')
+    const [basketThings, setBasketThings] = useState([])
     const [bagCount, setBagCount] = useState(3)
     const [selectedOption, setSelectedOption] = useState('$');
     const [isActive ,setIsActive] = useState(false)
 
-    const options =[
-        { symbol: '$' , value: 'USD'  },
-        { symbol: "£" , value: 'GBP'  },
-    ]
+    useEffect((()=>{
+        if(storage){
+          setBasketThings(JSON.parse(storage))
+        }
+      }),[])
 
     function handleClick() {
         setIsActive(!isActive)
@@ -34,7 +37,19 @@ export default function Basket() {
         <div className={isActive ? 'busketBox__body isActive': 'busketBox__body'} >
             <div className="busketBox__title">My Bag, {bagCount} items</div>
 
-            <BasketThingItem/>
+            <div className='busketBox__items'>
+            { (basketThings.length > 0)
+             ? basketThings.map((basketThing:any, index:number) => {
+                return  <BasketThingItem 
+                key={index} 
+                basketThing={basketThing}  
+                storage={storage}
+                
+                />})
+            : <div>Товаров нет</div>
+          
+          }
+          </div>
 
            <div className="busketBox__price">
                 <div className="busketBox__price-title">Total</div>
