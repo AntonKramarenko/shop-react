@@ -6,7 +6,7 @@ import { GET_PRODUCTS_INFO } from '../../query/getProducts'
 import { Loader } from '../loader/Loader'
 import './ProductPage.scss'
 
-export const ProductPage = (props:any) => {
+export const ProductPage = () => {
 const currency = useSelector((state:any) => state.currentCurrency.currentCurrency)
 const userLinkId = useParams()
 const {data, loading, error} = useQuery(GET_PRODUCTS_INFO(`${userLinkId.id}`))
@@ -28,12 +28,13 @@ if(loading) {
   }
 
 
+
+
 function changeImgHandler(value:string) {
     setCurrentImg(value)
 }
 
-
-function selectAttributesHandler(name:string, item:string){
+function selectAttributesHandler(name:string, item:string, product:any){
     let value:any = selectAttributes.map((attribute:any) => {
         let nameKeys =  Object.keys(attribute).join('')
         if(nameKeys === name){
@@ -50,22 +51,45 @@ function startSelectAttributes(data:any){
     setSelectAttributes(startAttributes)
 }
 
-function addToCardHandler(id:string, selectAttr:any){
+
+
+function addToCardHandler(id:string, selectAttr:any, product:any){
     let storage:any = localStorage.getItem('basket')
     let currentStorage =  JSON.parse(storage)
-    const addToBasket = [{[id]: selectAttr}]
 
-   if(storage){
-    currentStorage.map((i:any) =>{
-      addToBasket.push(i)
-    })
-    
-    localStorage.removeItem('basket')
+    let addToBasket:any = [{ 
+        key: id,
+        count: 1,
+        selectAttributes: selectAttr,
+        product:product
+   }]
+
+   if(!storage) {
     localStorage.setItem('basket',JSON.stringify(addToBasket) )
    } else {
-    localStorage.setItem('basket',JSON.stringify(addToBasket) )
+    currentStorage.map((item:any, index:number) => {
+        if(item.key === id){
+            let copy = false
+
+            item.selectAttributes.forEach((attributes:any, index:number) => {
+                const objKey = Object.keys(attributes).toString()
+                attributes[objKey] !== selectAttr[index][objKey] ? copy = false : copy = true
+            })
+            if(copy){
+                item.count++
+                addToBasket[index] = (item) 
+            }else {addToBasket.push(item)}
+        } else {
+            addToBasket.push(item) 
+        }
+    })
    }
+    localStorage.removeItem('basket')
+    localStorage.setItem('basket',JSON.stringify(addToBasket) )    
 }
+
+
+
 
     return (
         <div className='productPage'>
@@ -110,7 +134,7 @@ function addToCardHandler(id:string, selectAttr:any){
                                                         <span key={index} 
                                                         id={item.id}
                                                         className='productPage__attributes-item' 
-                                                        onClick={() => selectAttributesHandler(attributes.name, item.id)}
+                                                        onClick={() => selectAttributesHandler(attributes.name, item.id, data)}
                                                         style={{backgroundColor: `${item.value}`}} /> 
                                                     </span>
                                             )})}
@@ -132,7 +156,7 @@ function addToCardHandler(id:string, selectAttr:any){
                                                         ? 'productPage__attributes-item active-attribute'
                                                         : 'productPage__attributes-item'
                                                 }
-                                                onClick={() => selectAttributesHandler(attributes.name, item.id)}
+                                                onClick={() => selectAttributesHandler(attributes.name, item.id,data )}
                                                 >
                                                     {item.value}</span>
                                         )})}
@@ -155,7 +179,7 @@ function addToCardHandler(id:string, selectAttr:any){
                 {data.product.inStock 
                     ? <button 
                     className='productPage__btn'
-                    onClick={() => addToCardHandler(data.product.id, selectAttributes)}
+                    onClick={(event) => addToCardHandler(data.product.id, selectAttributes, data)}
                     >Add to card</button>
                     : null
                     }

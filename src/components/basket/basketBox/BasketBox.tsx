@@ -5,16 +5,15 @@ import { BasketThingItem } from '../basketThingItem/BasketThingItem';
 import './BasketBox.scss'
 
 export default function Basket() {
-
-    let storage: string | null = localStorage.getItem('basket')
-    const [basketThings, setBasketThings] = useState([])
-    const [bagCount, setBagCount] = useState(3)
-    const [selectedOption, setSelectedOption] = useState('$');
+    const [bagCount, setBagCount] = useState(0)
     const [isActive ,setIsActive] = useState(false)
 
+
+
     useEffect((()=>{
+      let storage: string | null = localStorage.getItem('basket')
         if(storage){
-          setBasketThings(JSON.parse(storage))
+          currentBagCount(JSON.parse(storage))
         }
       }),[])
 
@@ -22,33 +21,26 @@ export default function Basket() {
         setIsActive(!isActive)
     }
 
-    function onOptionClicked (value:any)  {
-        setSelectedOption(value);
-        setIsActive(!isActive);
-      };
-
+   function currentBagCount(basket:any){
+    let count = 0
+    basket.map((item:any) => {
+      count= count + item.count
+    })
+    setBagCount(count)
+   }
+    
  
   return (
     <div className='busketBox'>
         <div className='busketBox__header' onClick={handleClick}>
-            <div className="busketBox__count">3</div>
+           {bagCount > 0 ? <div className="busketBox__count">{bagCount}</div> : null}
             <img src={BasketLogo} alt="Basket Logo" />
         </div>
         <div className={isActive ? 'busketBox__body isActive': 'busketBox__body'} >
             <div className="busketBox__title">My Bag, {bagCount} items</div>
 
             <div className='busketBox__items'>
-            { (basketThings.length > 0)
-             ? basketThings.map((basketThing:any, index:number) => {
-                return  <BasketThingItem 
-                key={index} 
-                basketThing={basketThing}  
-                storage={storage}
-                
-                />})
-            : <div>Товаров нет</div>
-          
-          }
+           
           </div>
 
            <div className="busketBox__price">

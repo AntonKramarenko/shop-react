@@ -5,7 +5,7 @@ import { BasketThingItem } from './basketThingItem/BasketThingItem'
 
 
 
-export const Basket = () => {
+export const Basket = (props:any) => {
   let storage: string | null = localStorage.getItem('basket')
   const [basketThings, setBasketThings] = useState([])
 
@@ -13,7 +13,10 @@ useEffect((()=>{
   if(storage){
     setBasketThings(JSON.parse(storage))
   }
-}),[])
+console.log();
+
+}),[storage])
+
 
 
 
@@ -29,9 +32,11 @@ useEffect((()=>{
              ? basketThings.map((basketThing:any, index:number) => {
                 return  <BasketThingItem 
                 key={index} 
-                basketThing={basketThing}  
-                storage={storage}
-                
+                basketThingID={basketThing.key}
+                count ={basketThing.count}
+                selectAttributes={basketThing.selectAttributes}
+                product={basketThing.product}
+               
                 />})
             : <div>Товаров нет</div>
           

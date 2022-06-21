@@ -1,54 +1,86 @@
 import { useQuery } from '@apollo/client';
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { GET_BASKET_INFO } from '../../../query/getBasketInfo';
+import { Type } from 'typescript';
+import { GET_PRODUCTS_INFO } from '../../../query/getProducts';
+import { Product } from '../../../types';
 import { Loader } from '../../loader/Loader';
+
 import './BasketThingItem.scss'
 
 interface BasketThingItemProps  {
-    basketThing: any,
-    storage: string | null
+    basketThingID: string,
+    count: number,
+    selectAttributes: Array<Type>[],
+    product: any,
+    
 }
 
 export const BasketThingItem: React.FC<BasketThingItemProps> = (props) => {
+
     const currency = useSelector((state:any) => state.currentCurrency.currentCurrency)
-    const Idkey = Object.keys(props.basketThing).join('')
-    const {data, loading, error} = useQuery(GET_BASKET_INFO(Idkey))
-    const [load,setLoad] = useState(true)
-    const [thingInfo, setThingInfo] = useState([])
-    const [selectAttributes, setSelectAttributes] = useState([])
-    const [count, setCount] = useState(1)
-    const [imges,setImges] = useState('')
+    const {data, loading, error} = useQuery(GET_PRODUCTS_INFO(props.basketThingID))
+    const [selectAttributes, setSelectAttributes] = useState(props.selectAttributes)
+    const [load, setLoad] = useState(true)
+    const [countProduct, setCount] = useState(props.count)
+    const [productInfo, setProductInfo] = useState(props.product)
     const [countImges,setCountImges] = useState(0)
+    const [imges,setImges] = useState('')
+
     
+    
+   useEffect(() => {
+        if(!loading) {
+            setLoad(false)
+            setImges(productInfo.product.gallery[countImges])
+            changeCard(props.basketThingID, selectAttributes,props.product )
+            
+           
+   }},[loading,countProduct,selectAttributes])
 
 
 
+   function changeCard(id:string, selectAttr:any, product:any){
+    let storage:any = localStorage.getItem('basket')
+    let currentStorage =  JSON.parse(storage)
+    
+    let addToBasket:any = [{ 
+        key: id,
+        count: countProduct,
+        selectAttributes: selectAttr,
+        product:product
+   }]
 
-  
-  useEffect(() => {
-    if(!loading){
-        setThingInfo(data)
-        addSelectAttributes(props.storage)
-        setImges(data.product.gallery[countImges])
-        setLoad(false)
-    }
-  },[data,loading])
+   if(storage) {
+    currentStorage.map((item:any, index:number) => {
+        if(item.key === id){
+            let copy = false
 
-
-function addSelectAttributes(storage:any){
-    const startAttributes:any = []
-
-   if(storage){
-    let storages = JSON.parse(storage)
-    storages.map((stogageID:any) => {
-        if(stogageID[Idkey]){
-            stogageID[Idkey].map((item:any) => {
-                startAttributes.push(item)
-    })}
-
-        setSelectAttributes(startAttributes)})}
+            item.selectAttributes.forEach((attributes:any, index:number) => {
+                const objKey:any = Object.keys(attributes).toString()
+                attributes[objKey] !== selectAttr[index][objKey] ? copy = false : copy = true
+            })
+        
+                if(copy){
+                    item.count = countProduct
+                    addToBasket[index] = (item) 
+                } else {
+                    item.selectAttributes = selectAttr
+                    item.count = countProduct
+                    addToBasket[index] = (item) 
+                }
+            
+            
+        } else {
+            addToBasket.push(item) 
+        }
+    })
+   }
+    localStorage.removeItem('basket')
+    localStorage.setItem('basket',JSON.stringify(addToBasket) )    
 }
+
+
 
 function selectAttributesHandler(name:string, item:string){ 
     let value:any =selectAttributes.map((attribute:any) => {
@@ -57,142 +89,136 @@ function selectAttributesHandler(name:string, item:string){
             return {[nameKeys]: item}
         } else { return attribute }
     })
-
     setSelectAttributes(value)
+   
 }
 
 function counter(value:number) {
-    setCount(count + value)
+    setCount(countProduct + value)
+    
 }
 
-function setImage(value:number) {
-    let imgArrayCount = data.product.gallery.length -1
 
-    if(countImges < 0){
-        return  setCountImges(imgArrayCount)
-    }
-    if(countImges === imgArrayCount){
+function setImage(value:number) {
+    let imgArrayCount = data.product.gallery.length-1
+
+    if(countImges === imgArrayCount ){
         return  setCountImges(0)
     } 
+
+    if( countImges < 0){
+       return setCountImges(imgArrayCount-1)
+    }
 
     console.log(countImges)
     setCountImges(countImges + value)
     setImges(data.product.gallery[countImges])
 }
 
-function prices(){
-    
-    
-        data.product.prices.map((item:any) => {
-             if(item.currency.label === currency.label){
-                 return  `${item.currency.symbol} ${item.amount * count} `
-        }})
-
+if(countProduct == 0 ){
+    return null
 }
 
+if(!load){
 
-if(load) {
-    return <Loader/>
-}
-
-
-
-return ( !load && count
-        ?   <div className='basketThingItem'>
-                <div className="basketThingItem__info">
-                    <div className="basketThingItem__brand">{data.product.brand}</div>
-                    <div className="basketThingItem__name">{data.product.name}</div>
-                    <div className="basketThingItem__price">
-                 {
-                     data.product.prices.map((item:any) => {
-                        if(item.currency.label === currency.label){
-                            return  `${item.currency.symbol} ${item.amount * count} `
-                   }})
-                 }
-                    </div>
+return (
+    <div className='basketThingItem'>
+                     <div className="basketThingItem__info">
+                         <div className="basketThingItem__brand">{productInfo.product.name}</div>
+                         <div className="basketThingItem__name">{productInfo.product.brand}</div>
+                         <div className="basketThingItem__price">
                     {
-                        data.product.attributes.map((attributes:any, indexAttribute:number) => {
-                          
-                           
-                           if(attributes.name === 'Color'){
+                         productInfo.product.prices.map((item:any) => {
+                            if(item.currency.label === currency.label){
+                                return  `${item.currency.symbol} ${item.amount * countProduct} `
+                       }})
+                     }
+                        </div>
+                        {
+                           productInfo.product.attributes.map((attributes:any, indexAttribute:number) => {
+                               if(attributes.name === 'Color'){
+                                    return (
+                                     <div key={indexAttribute} className="productPage__attributes">
+                                        <div className="productPage__title">{attributes.name}</div>
+                                        <div className="productPage__attributes-items">
+                                                 {attributes.items.map((item:any, index:number) =>{
+                                                    return (
+                                                        <span 
+                                                        key={index} 
+                                                        className={
+                                                            (selectAttributes.length !== 0 && item.id == selectAttributes[indexAttribute][attributes.name])
+                                                                ? 'active-box'
+                                                                : ''
+                                                        }
+                                                        >
+                                                            <span key={index} 
+                                                            id={item.id}
+                                                            className='productPage__attributes-item' 
+                                                            onClick={() => selectAttributesHandler(attributes.name, item.id)}
+                                                            style={{backgroundColor: `${item.value}`}} /> 
+                                                        </span>
+                                                )})}
+                                        </div>
+                                    </div>
+                                    ) 
+                                }
                                 return (
-                                 <div key={indexAttribute} className="productPage__attributes">
-                                    <div className="productPage__title">{attributes.name}</div>
+                                    <div key={indexAttribute} className="productPage__attributes">
+                                    <div className="productPage__title">{attributes.name}:</div>
                                     <div className="productPage__attributes-items">
-                                             {attributes.items.map((item:any, index:number) =>{
+                                             {attributes.items.map((item:any, indexItem:number) =>{
+                                             
                                                 return (
-                                                    <span 
-                                                    key={index} 
+                                                    <span  
+                                                    id={item.id}
+                                                    key={indexItem} 
                                                     className={
-                                                        (selectAttributes.length !== 0 && item.id == selectAttributes[indexAttribute][attributes.name])
-                                                            ? 'active-box'
-                                                            : ''
+                                                        (selectAttributes.length !== 0 && item.id == selectAttributes[indexAttribute][attributes.name] )
+                                                            ? 'productPage__attributes-item active-attribute'
+                                                            : 'productPage__attributes-item'
                                                     }
+                                                     onClick={() => selectAttributesHandler(attributes.name, item.id)}
                                                     >
-                                                        <span key={index} 
-                                                        id={item.id}
-                                                        className='productPage__attributes-item' 
-                                                        onClick={() => selectAttributesHandler(attributes.name, item.id)}
-                                                        style={{backgroundColor: `${item.value}`}} /> 
-                                                    </span>
+                                                        {item.value}</span>
                                             )})}
                                     </div>
                                 </div>
-                                ) 
-                            }
-                            return (
-                                <div key={indexAttribute} className="productPage__attributes">
-                                <div className="productPage__title">{attributes.name}:</div>
-                                <div className="productPage__attributes-items">
-                                         {attributes.items.map((item:any, indexItem:number) =>{
-                                           
-                                            return (
-                                                <span  
-                                                id={item.id}
-                                                key={indexItem} 
-                                                className={
-                                                    (selectAttributes.length !== 0 && item.id == selectAttributes[indexAttribute][attributes.name] )
-                                                        ? 'productPage__attributes-item active-attribute'
-                                                        : 'productPage__attributes-item'
-                                                }
-                                                 onClick={() => selectAttributesHandler(attributes.name, item.id)}
-                                                >
-                                                    {item.value}</span>
-                                        )})}
-                                </div>
-                            </div>
-                            )
-                        })
-                    } 
-
+                                )
+                            })
+                        }   
+    
+                    </div>
+    
+                    
+              
+                    <div className="basketThingItem__countBox">
+                        <div className="basketThingItem__counts">
+                            <div 
+                            className="basketThingItem__counts-btn"
+                            onClick={() => counter(1)}
+                            >+</div>
+                            <div className="basketThingItem__counts-count">{countProduct}</div>
+                            <div 
+                            className="basketThingItem__counts-btn"
+                            onClick={() => counter(-1)}
+                            >-</div>
+                        </div>
+                        <div className="basketThingItem__img">
+                           <div className='basketThingItem__changers'>
+                                  <span className='basketThingItem__changer' onClick={() => setImage(1)}> +</span>
+                                  <span className='basketThingItem__changer' onClick={() => setImage(-1)}> - </span>
+                           </div>
+                           
+                            <img src={imges} alt="" />
+                        </div>
+                     </div>
                 </div>
+    
+              
+    )
+}
+else{
+    return <Loader/>
+}
 
-                
-          
-                <div className="basketThingItem__countBox">
-                    <div className="basketThingItem__counts">
-                        <div 
-                        className="basketThingItem__counts-btn"
-                        onClick={() => counter(1)}
-                        >+</div>
-                        <div className="basketThingItem__counts-count">{count}</div>
-                        <div 
-                        className="basketThingItem__counts-btn"
-                        onClick={() => counter(-1)}
-                        >-</div>
-                    </div>
-                    <div className="basketThingItem__img">
-                       <div className='basketThingItem__changers'>
-                              <span className='basketThingItem__changer' onClick={() => setImage(1)}> +</span>
-                              <span className='basketThingItem__changer' onClick={() => setImage(-1)}> - </span>
-                       </div>
-                       
-                        <img src={imges} alt="" />
-                    </div>
-                 </div>
-            </div>
-
-        : null    
-)}
-
-
+}
