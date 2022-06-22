@@ -2,16 +2,28 @@ import { useQuery } from '@apollo/client'
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { NavLink, useParams } from 'react-router-dom'
+import useLocalStorage from '../../hooks/useLocalStorage'
 import { GET_PRODUCTS_INFO } from '../../query/getProducts'
 import { Loader } from '../loader/Loader'
 import './ProductPage.scss'
 
-export const ProductPage = () => {
+interface ProductPageProps{
+    addToCardHandler?:any
+}
+
+
+
+export const ProductPage: React.FC<ProductPageProps> = () => {
 const currency = useSelector((state:any) => state.currentCurrency.currentCurrency)
 const userLinkId = useParams()
 const {data, loading, error} = useQuery(GET_PRODUCTS_INFO(`${userLinkId.id}`))
 const [currentImg, setCurrentImg] = useState('')
 const [selectAttributes,setSelectAttributes] = useState([])
+
+const storage = useLocalStorage()
+
+
+
 
 useEffect(() => {
     if(!loading){
@@ -26,6 +38,7 @@ if(loading) {
       <Loader />
     )
   }
+
 
 
 
@@ -51,42 +64,6 @@ function startSelectAttributes(data:any){
     setSelectAttributes(startAttributes)
 }
 
-
-
-function addToCardHandler(id:string, selectAttr:any, product:any){
-    let storage:any = localStorage.getItem('basket')
-    let currentStorage =  JSON.parse(storage)
-
-    let addToBasket:any = [{ 
-        key: id,
-        count: 1,
-        selectAttributes: selectAttr,
-        product:product
-   }]
-
-   if(!storage) {
-    localStorage.setItem('basket',JSON.stringify(addToBasket) )
-   } else {
-    currentStorage.map((item:any, index:number) => {
-        if(item.key === id){
-            let copy = false
-
-            item.selectAttributes.forEach((attributes:any, index:number) => {
-                const objKey = Object.keys(attributes).toString()
-                attributes[objKey] !== selectAttr[index][objKey] ? copy = false : copy = true
-            })
-            if(copy){
-                item.count++
-                addToBasket[index] = (item) 
-            }else {addToBasket.push(item)}
-        } else {
-            addToBasket.push(item) 
-        }
-    })
-   }
-    localStorage.removeItem('basket')
-    localStorage.setItem('basket',JSON.stringify(addToBasket) )    
-}
 
 
 
@@ -179,7 +156,7 @@ function addToCardHandler(id:string, selectAttr:any, product:any){
                 {data.product.inStock 
                     ? <button 
                     className='productPage__btn'
-                    onClick={(event) => addToCardHandler(data.product.id, selectAttributes, data)}
+                    onClick={(event) => storage.addToBasketHandler(data.product.id, selectAttributes, data)}
                     >Add to card</button>
                     : null
                     }
@@ -191,3 +168,6 @@ function addToCardHandler(id:string, selectAttr:any, product:any){
   )
   
 }
+
+
+export default ProductPage

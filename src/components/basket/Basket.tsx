@@ -1,34 +1,24 @@
 import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import { Loader } from '../loader/Loader'
 import './Basket.scss'
 import { BasketThingItem } from './basketThingItem/BasketThingItem'
 
 
 
-export const Basket = (props:any) => {
-  let storage: string | null = localStorage.getItem('basket')
-  const [basketThings, setBasketThings] = useState([])
+const Basket = (props:any) => {
 
-useEffect((()=>{
-  if(storage){
-    setBasketThings(JSON.parse(storage))
-  }
-console.log();
+  const currentBasketRedux = useSelector((state:any) => state.currentBasket)
 
-}),[storage])
-
-
-
+  console.log(currentBasketRedux)
 
   return (
 
     <div className='basket'>
         <h3 className="basket__title">CART</h3>
-
         <div className="basket__line" />
-
         <div className='basket__items'>
-        { (basketThings.length > 0)
+        {/* { (basketThings.length > 0)
              ? basketThings.map((basketThing:any, index:number) => {
                 return  <BasketThingItem 
                 key={index} 
@@ -39,8 +29,7 @@ console.log();
                
                 />})
             : <div>Товаров нет</div>
-          
-          }
+          } */}
         </div>
         
       
@@ -56,3 +45,4 @@ console.log();
     </div>
   )
 }
+export default Basket

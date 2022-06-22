@@ -10,24 +10,24 @@ export default function Basket() {
 
 
 
-    useEffect((()=>{
-      let storage: string | null = localStorage.getItem('basket')
-        if(storage){
-          currentBagCount(JSON.parse(storage))
-        }
-      }),[])
+  //   useEffect((()=>{
+  //     let storage: string | null = localStorage.getItem('basket')
+  //       if(storage){
+  //         currentBagCount(JSON.parse(storage))
+  //       }
+  //     }),[])
 
     function handleClick() {
         setIsActive(!isActive)
     }
 
-   function currentBagCount(basket:any){
-    let count = 0
-    basket.map((item:any) => {
-      count= count + item.count
-    })
-    setBagCount(count)
-   }
+  //  function currentBagCount(basket:any){
+  //   let count = 0
+  //   basket.map((item:any) => {
+  //     count= count + item.count
+  //   })
+  //   setBagCount(count)
+  //  }
     
  
   return (

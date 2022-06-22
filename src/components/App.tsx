@@ -7,7 +7,7 @@ import {Header} from './header/Header';
 import {ShopBoard} from './shopBoard/ShopBoard';
 import {Loader} from './loader/Loader'
 import { ProductPage } from './productPage/ProductPage';
-import { Basket } from './basket/Basket';
+import  Basket  from './basket/Basket';
  
 export default function App()  {
 
