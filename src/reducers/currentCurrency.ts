@@ -6,10 +6,10 @@ const defaultState = {
 }
 
 export default function CurrentCurrency(state:any = defaultState, action:any) {
+    
 
     switch (action.type) {
         case SET_CURENT_CURRENTCY: return {currentCurrency: action.payload}
-
         
         default:
             return state

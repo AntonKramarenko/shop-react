@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+import { Type } from 'typescript'
 import { Loader } from '../loader/Loader'
 import './Basket.scss'
 import { BasketThingItem } from './basketThingItem/BasketThingItem'
 
 
 
-const Basket = (props:any) => {
+const Basket = () => {
 
-  const currentBasketRedux = useSelector((state:any) => state.currentBasket)
-
-  console.log(currentBasketRedux)
+  const currentBasket = useSelector((state:any) => state.currentBasket)
 
   return (
 
@@ -18,18 +17,17 @@ const Basket = (props:any) => {
         <h3 className="basket__title">CART</h3>
         <div className="basket__line" />
         <div className='basket__items'>
-        {/* { (basketThings.length > 0)
-             ? basketThings.map((basketThing:any, index:number) => {
+        { (currentBasket.length > 0)
+             ? currentBasket.map((currentBasketItem:any, index:number) => {
                 return  <BasketThingItem 
                 key={index} 
-                basketThingID={basketThing.key}
-                count ={basketThing.count}
-                selectAttributes={basketThing.selectAttributes}
-                product={basketThing.product}
-               
+                currentBasketID={currentBasketItem.key}
+                count ={currentBasketItem.value}
+                selectAttributes={currentBasketItem.selectAttributes}
+                product={currentBasketItem.data}
                 />})
-            : <div>Товаров нет</div>
-          } */}
+            : <div>Basket empty</div>
+          }
         </div>
         
       

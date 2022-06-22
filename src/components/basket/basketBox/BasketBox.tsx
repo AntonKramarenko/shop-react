@@ -1,34 +1,43 @@
 import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import { Type } from 'typescript';
 import BasketLogo from '../../../assets/img/shoping_list.png'
+import useLocalStorage from '../../../hooks/useLocalStorage';
+import { changeBasket } from '../../../reducers/currentBasket';
 import { BasketThingItem } from '../basketThingItem/BasketThingItem';
 import './BasketBox.scss'
 
 export default function Basket() {
+    const storage = useLocalStorage().getStorage()
+    const dispatch = useDispatch()
+    
     const [bagCount, setBagCount] = useState(0)
     const [isActive ,setIsActive] = useState(false)
 
+  useEffect(()=>{
+  if(storage){
+    dispatch(changeBasket(storage))
+    getBagCount(storage) //storage
+  }
+
+  },[])
+  
+  function handleClick() {
+      setIsActive(!isActive)
+   }
 
 
-  //   useEffect((()=>{
-  //     let storage: string | null = localStorage.getItem('basket')
-  //       if(storage){
-  //         currentBagCount(JSON.parse(storage))
-  //       }
-  //     }),[])
-
-    function handleClick() {
-        setIsActive(!isActive)
-    }
-
-  //  function currentBagCount(basket:any){
-  //   let count = 0
-  //   basket.map((item:any) => {
-  //     count= count + item.count
-  //   })
-  //   setBagCount(count)
-  //  }
     
+
+function getBagCount(items:Array<Type>){
+  let count = 0
+  items.forEach((item:any) => {
+    count += item.value
+  })
+  setBagCount(count);
+}
+
  
   return (
     <div className='busketBox'>

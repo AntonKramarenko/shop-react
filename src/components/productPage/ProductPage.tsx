@@ -32,16 +32,11 @@ useEffect(() => {
     }
 },[data,loading])
 
-
 if(loading) {
     return(
       <Loader />
     )
   }
-
-
-
-
 
 function changeImgHandler(value:string) {
     setCurrentImg(value)
@@ -63,10 +58,6 @@ function startSelectAttributes(data:any){
         startAttributes.push({[attribute.name]: attribute.items[0].id})})
     setSelectAttributes(startAttributes)
 }
-
-
-
-
 
     return (
         <div className='productPage'>

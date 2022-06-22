@@ -3,15 +3,14 @@ import { NavLink } from "react-router-dom";
 import Logo from '../../assets/img/header_logo.png'
 import SelectCurrency from '../selectCurrency/SelectCurrency';
 import Basket from '../basket/basketBox/BasketBox';
+import useLocalStorage from '../../hooks/useLocalStorage';
+
 
 interface HeaderProps{
   category: any
 }
 
 export  const Header:React.FC<HeaderProps> =(props) =>  {
-
-
-
 
   return (
     <div className="navbar">
@@ -33,7 +32,7 @@ export  const Header:React.FC<HeaderProps> =(props) =>  {
        
         <div className="navbar__actions">
           <SelectCurrency/>
-          <Basket/>
+          <Basket />
         </div>
       </div>
     </div>

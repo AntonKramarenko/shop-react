@@ -9,7 +9,7 @@ import { Loader } from '../../loader/Loader';
 import './BasketThingItem.scss'
 
 interface BasketThingItemProps  {
-    basketThingID: string,
+    currentBasketID: string,
     count: number,
     selectAttributes: Array<Type>[],
     product: any,
@@ -17,7 +17,22 @@ interface BasketThingItemProps  {
 }
 
 export const BasketThingItem: React.FC<BasketThingItemProps> = (props) => {
+    const [productCount, setProducCount] = useState(props.count)
+    const [selectAttributes,setSelectAttributes] = useState(props.selectAttributes)
+    const currency = useSelector((state:any) => state.currentCurrency.currentCurrency)
 
+
+
+    function selectAttributesHandler(name:string, item:string){
+        
+        let value:any = selectAttributes.map((attribute:any) => {
+            let nameKeys =  Object.keys(attribute).join('')
+            if(nameKeys === name){
+                return {[nameKeys]: item}
+            } else { return attribute }
+        })
+        setSelectAttributes(value)
+    }
 
 
 
@@ -25,18 +40,18 @@ export const BasketThingItem: React.FC<BasketThingItemProps> = (props) => {
 return (
     <div className='basketThingItem'>
                      <div className="basketThingItem__info">
-                         <div className="basketThingItem__brand">Name</div>
+                         <div className="basketThingItem__brand">{props.product.product.name}</div>
                          <div className="basketThingItem__name">Brand</div>
                          <div className="basketThingItem__price">
-                    {/* {
-                         productInfo.product.prices.map((item:any) => {
+                    {
+                         props.product.product.prices.map((item:any) => {
                             if(item.currency.label === currency.label){
-                                return  `${item.currency.symbol} ${item.amount * countProduct} `
+                                return  `${item.currency.symbol} ${item.amount } `
                        }})
-                     } */}
+                     }
                         </div>
-                        {/* {
-                           productInfo.product.attributes.map((attributes:any, indexAttribute:number) => {
+                        {
+                           props.product.product.attributes.map((attributes:any, indexAttribute:number) => {
                                if(attributes.name === 'Color'){
                                     return (
                                      <div key={indexAttribute} className="productPage__attributes">
@@ -47,7 +62,7 @@ return (
                                                         <span 
                                                         key={index} 
                                                         className={
-                                                            (selectAttributes.length !== 0 && item.id == selectAttributes[indexAttribute][attributes.name])
+                                                            (props.selectAttributes.length !== 0 && item.id == selectAttributes[indexAttribute][attributes.name])
                                                                 ? 'active-box'
                                                                 : ''
                                                         }
@@ -74,7 +89,7 @@ return (
                                                     id={item.id}
                                                     key={indexItem} 
                                                     className={
-                                                        (selectAttributes.length !== 0 && item.id == selectAttributes[indexAttribute][attributes.name] )
+                                                        (props.selectAttributes.length !== 0 && item.id == selectAttributes[indexAttribute][attributes.name] )
                                                             ? 'productPage__attributes-item active-attribute'
                                                             : 'productPage__attributes-item'
                                                     }
@@ -86,7 +101,7 @@ return (
                                 </div>
                                 )
                             })
-                        }    */}
+                        }  
     
                     </div>
     
@@ -98,7 +113,7 @@ return (
                             className="basketThingItem__counts-btn"
                             
                             >+</div>
-                            <div className="basketThingItem__counts-count">{1}</div>
+                            <div className="basketThingItem__counts-count">{productCount}</div>
                             <div 
                             className="basketThingItem__counts-btn"
                             

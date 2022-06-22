@@ -13,6 +13,7 @@ export default function App()  {
 
   const {data, loading, error} = useQuery(GET_ALL_CATEGORY)
   const [categories, setCategories] = useState([])
+  
 
 
 useEffect(() => {
@@ -27,8 +28,6 @@ if(loading) {
     <Loader />
   )
 }
-
-
 
 return (
     <BrowserRouter>
