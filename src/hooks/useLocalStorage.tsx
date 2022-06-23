@@ -12,8 +12,11 @@ export default function useLocalStorage() {
 
 
 
+    const filterDublicateStorage = (value:any) => {
+        // filter dublicate 
+    } 
 
-    function getStorage(){
+    const  getStorage = () =>{
         const storage:string | null = localStorage.getItem('basket')
         if(storage){
             return JSON.parse(storage)
@@ -21,7 +24,7 @@ export default function useLocalStorage() {
         return null
     }
     
-    function generateKey(id:string,selectAttributes:Array<Type> ){
+    const generateKey = (id:string,selectAttributes:Array<Type> ) => {
         let selectKeys = selectAttributes.map((item:any) => {
             let a = Object.keys(item)
             let b = Object.values(item)
@@ -29,16 +32,19 @@ export default function useLocalStorage() {
         return id+selectKeys;
     }
 
-    function reSetStorage(name:string, value:Array<{}> ){
+    const  reSetStorage = (name:string, value:Array<{}>) => {
 
+        let filterStorageArr = filterDublicateStorage(value)
+        // console.log(filterStorageArr);
+        
         dispatch(changeBasket(value)) // add state redux
         localStorage.removeItem(name)
         localStorage.setItem(name, JSON.stringify(value))
     }
 
-    function addToBasketHandler(id:string, selectAttributes:Array<Type>,  data:Array<Type>) {
+    const  addToBasketHandler = (id:string, selectAttributes:Array<Type>,  data:Array<Type>) => {
         const storage = getStorage()
-        const key =  generateKey(id,selectAttributes )
+        const key =  generateKey(id,selectAttributes)
         const basketStorage = [{key: key, value:1, selectAttributes:selectAttributes, data:data}]
 
         if(!storage){
@@ -50,14 +56,38 @@ export default function useLocalStorage() {
                     basketStorage[index] = (storageItem)
                 } else {basketStorage.push(storageItem)}
             })
-
             reSetStorage('basket', basketStorage)
         }
     }
+
+
+    const changeAttributesHandler =(id:string, key:string , selectAttributes:any, count:number ) => {
+
+        const storage = getStorage()
+        const newKey =  generateKey(id,selectAttributes)
+        let basketStorage = []
+
+
+        if(count !== 0 ){
+             basketStorage  = storage.map((item:any) => {
+                if(item.key === key){
+                   item.key = newKey
+                   item.value = count
+                   item.selectAttributes = selectAttributes
+                   return item
+               }else {return item}}
+           )
+        } else {
+            basketStorage  = storage.filter((item:any) => item.key !== key)
+        }
+
+       
+        reSetStorage('basket', basketStorage)
+    };
+        
+
+
+        
     
-
-
-
-
-  return ({addToBasketHandler,getStorage})
+  return ({addToBasketHandler,getStorage,changeAttributesHandler})
 }

@@ -8,8 +8,23 @@ import { BasketThingItem } from './basketThingItem/BasketThingItem'
 
 
 const Basket = () => {
+  let currentBasket = useSelector((state:any) => state.currentBasket)
+  const currency = useSelector((state:any) => state.currentCurrency.currentCurrency)
+  const [totalPrice, setTotalPrice] = useState(0)
+  const [basket, setBasket] = useState(currentBasket)
+  
 
-  const currentBasket = useSelector((state:any) => state.currentBasket)
+  useEffect(() => {
+    setBasket(currentBasket)
+    
+  },[currentBasket])
+
+
+  console.log(basket.map((item:any) => {
+      return item.data.product.prices
+  }))
+  
+
 
   return (
 
@@ -17,8 +32,8 @@ const Basket = () => {
         <h3 className="basket__title">CART</h3>
         <div className="basket__line" />
         <div className='basket__items'>
-        { (currentBasket.length > 0)
-             ? currentBasket.map((currentBasketItem:any, index:number) => {
+        { (basket.length > 0)
+             ? basket.map((currentBasketItem:any, index:number) => {
                 return  <BasketThingItem 
                 key={index} 
                 currentBasketID={currentBasketItem.key}
