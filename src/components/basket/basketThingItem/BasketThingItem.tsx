@@ -13,10 +13,13 @@ interface BasketThingItemProps  {
     selectAttributes: Array<Type>[],
     product: any,
     
+    
 }
 
 export const BasketThingItem: React.FC<BasketThingItemProps> = (props) => {
     const [productCount, setProducCount] = useState(props.count)
+    const [price, setPrice] = useState(0)
+    const [currentSymbol, setCurrentSymbol] = useState('')
     const [selectAttributes,setSelectAttributes] = useState(props.selectAttributes)
     const [currentImg, setCurrentImg] = useState(props.product.product.gallery[0])
     const [currentCountImg,setCurrentCountImg ] = useState(1)
@@ -24,13 +27,12 @@ export const BasketThingItem: React.FC<BasketThingItemProps> = (props) => {
     const storage = useLocalStorage()
 
 
+
     useEffect(()=>{
         storage.changeAttributesHandler(props.product.product.id, props.currentBasketID, selectAttributes, productCount)
-        
-    },[productCount,selectAttributes])
-
-   
-
+        addCurrentPrice(props.product.product.prices)
+       
+    },[productCount,selectAttributes,currency])
 
     function selectAttributesHandler(name:string, item:string){
         let value:any = selectAttributes.map((attribute:any) => {
@@ -54,19 +56,21 @@ export const BasketThingItem: React.FC<BasketThingItemProps> = (props) => {
         setCurrentImg(props.product.product.gallery[currentCountImg])
     }
 
+
+ const addCurrentPrice = (prices:any) => {
+   prices.map((item:any) => {
+        if(item.currency.label === currency.label){
+            setCurrentSymbol(`${item.currency.symbol}`)
+            setPrice(item.amount * productCount) 
+   }})
+ }
+
 return (
     <div className='basketThingItem'>
                      <div className="basketThingItem__info">
                          <div className="basketThingItem__brand">{props.product.product.name}</div>
                          <div className="basketThingItem__name">{props.product.product.brand}</div>
-                         <div className="basketThingItem__price">
-                    {
-                         props.product.product.prices.map((item:any) => {
-                            if(item.currency.label === currency.label){
-                                return  `${item.currency.symbol} ${item.amount } `
-                       }})
-                     }
-                        </div>
+                         <div className="basketThingItem__price">{currentSymbol} {price}</div>
                         {
                            props.product.product.attributes.map((attributes:any, indexAttribute:number) => {
                                if(attributes.name === 'Color'){

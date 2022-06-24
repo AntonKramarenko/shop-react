@@ -11,10 +11,9 @@ export default function useLocalStorage() {
     const dispatch = useDispatch()
 
 
-
-    const filterDublicateStorage = (value:any) => {
-        // filter dublicate 
-    } 
+    const fifterArrayOfObjects = (value:any) => {
+        return [...new Map(value.map((item:any) => [item["key"], item])).values()];
+    }
 
     const  getStorage = () =>{
         const storage:string | null = localStorage.getItem('basket')
@@ -34,12 +33,17 @@ export default function useLocalStorage() {
 
     const  reSetStorage = (name:string, value:Array<{}>) => {
 
-        let filterStorageArr = filterDublicateStorage(value)
-        // console.log(filterStorageArr);
+        const store = fifterArrayOfObjects(value)
+        console.log(store);
         
-        dispatch(changeBasket(value)) // add state redux
+
+        dispatch(changeBasket(store)) // add state redux
         localStorage.removeItem(name)
-        localStorage.setItem(name, JSON.stringify(value))
+        localStorage.setItem(name, JSON.stringify(store))
+
+        // dispatch(changeBasket(value)) // add state redux
+        // localStorage.removeItem(name)
+        // localStorage.setItem(name, JSON.stringify(value))
     }
 
     const  addToBasketHandler = (id:string, selectAttributes:Array<Type>,  data:Array<Type>) => {
@@ -62,11 +66,9 @@ export default function useLocalStorage() {
 
 
     const changeAttributesHandler =(id:string, key:string , selectAttributes:any, count:number ) => {
-
         const storage = getStorage()
         const newKey =  generateKey(id,selectAttributes)
         let basketStorage = []
-
 
         if(count !== 0 ){
              basketStorage  = storage.map((item:any) => {
@@ -81,13 +83,12 @@ export default function useLocalStorage() {
             basketStorage  = storage.filter((item:any) => item.key !== key)
         }
 
+
        
         reSetStorage('basket', basketStorage)
     };
         
 
 
-        
-    
   return ({addToBasketHandler,getStorage,changeAttributesHandler})
 }

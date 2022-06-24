@@ -12,6 +12,8 @@ interface HeaderProps{
 
 export  const Header:React.FC<HeaderProps> =(props) =>  {
 
+  
+
   return (
     <div className="navbar">
       <div className="container">
