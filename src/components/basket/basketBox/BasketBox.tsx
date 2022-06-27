@@ -6,6 +6,7 @@ import BasketLogo from '../../../assets/img/shoping_list.png'
 import useLocalStorage from '../../../hooks/useLocalStorage';
 import { changeBasketIsActive } from '../../../reducers/currentBackground';
 import { changeBasket } from '../../../reducers/currentBasket';
+import { BasketEmpty } from '../BasketEmpty/BasketEmpty';
 import { BasketThingItem } from '../basketThingItem/BasketThingItem';
 import './BasketBox.scss'
 
@@ -67,29 +68,24 @@ console.log(currentIsActiveBackground);
         </div>
         <div className={isActive ? 'busketBox__body isActive': 'busketBox__body'} >
             <div className="busketBox__title">My Bag, {bagCount} items</div>
-
             <div className='busketBox__items'>
-           
           { (basket.length > 0)
              ? basket.map((currentBasketItem:any, index:number) => {
                 return  <BasketThingItem 
-                key={index} 
+                key={currentBasketItem.id} 
                 currentBasketID={currentBasketItem.key}
                 count ={currentBasketItem.value}
                 selectAttributes={currentBasketItem.selectAttributes}
                 product={currentBasketItem.data}
                
                 />})
-            : <div>Basket empty</div>
+            : <BasketEmpty/>
           }
           </div>
-
-
            <div className="busketBox__price">
                 <div className="busketBox__price-title">Total</div>
                 <div className="busketBox__price-count">200.00$</div>
            </div>
-
            <div className="busketBox__btns">
                 <div className="busketBox__btn" onClick={handleClick}>
                     <NavLink 
@@ -104,3 +100,46 @@ console.log(currentIsActiveBackground);
     </div>
   )
 }
+
+
+// return (
+//   <div className='busketBox'>
+//       <div className='busketBox__header' onClick={handleClick}>
+//          {bagCount > 0 ? <div className="busketBox__count">{bagCount}</div> : null}
+//           <img src={BasketLogo} alt="Basket Logo" />
+//       </div>
+//       <div className={isActive ? 'busketBox__body isActive': 'busketBox__body'} >
+//           <div className="busketBox__title">My Bag, {bagCount} items</div>
+//           <div className='busketBox__items'>
+//         { (basket.length > 0)
+//            ? basket.map((currentBasketItem:any, index:number) => {
+//               return  <BasketThingItem 
+//               key={index} 
+//               currentBasketID={currentBasketItem.key}
+//               count ={currentBasketItem.value}
+//               selectAttributes={currentBasketItem.selectAttributes}
+//               product={currentBasketItem.data}
+             
+//               />})
+
+              
+//           : <div>Basket empty</div>
+//         }
+//         </div>
+//          <div className="busketBox__price">
+//               <div className="busketBox__price-title">Total</div>
+//               <div className="busketBox__price-count">200.00$</div>
+//          </div>
+//          <div className="busketBox__btns">
+//               <div className="busketBox__btn" onClick={handleClick}>
+//                   <NavLink 
+//                     to={`/basket`}
+//                   >
+                    
+//                        viev bag
+//                   </NavLink> </div>
+//               <div className="busketBox__btn">Check Out</div>
+//          </div>
+//       </div>
+//   </div>
+// )

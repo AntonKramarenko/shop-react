@@ -86,7 +86,7 @@
     }
 
     &__info {
-        width: 300px;
+        width: 320px;
     }
 
     &__title{
@@ -132,7 +132,7 @@
             padding: 1px;
             position: relative;
             bottom: -3px;
-            z-index: -1;
+            z-index: 0;
         }
 
        
@@ -145,7 +145,6 @@
         }
     }
 
-
     &__img{
         width: 200px;
         height: 288px;
@@ -153,7 +152,7 @@
         overflow: hidden;
         display: flex;
         align-items: center;
-        z-index: -1;
+        z-index: 0;
     }
 
     &__changers {
@@ -171,10 +170,7 @@
         background-color: rgba(0, 0, 0, 0.73);
         color: white;
         margin-right: 8px;
-
     }
-
-
 
     &__img img{
         width:100%;
@@ -182,11 +178,9 @@
     }
 }
 
-
 .busketBox__items .basketThingItem{
     display: flex;
     justify-content: space-between;
-
 
     &__info{
         width: 170px;
@@ -201,9 +195,6 @@
     &__price{
         margin-bottom: 10px;
     }
-    
-
-
 
     &__sizes{
         display: flex;
@@ -241,15 +232,12 @@
 
 
     &___attributes {
-
         .active-box {
             width: 35px;
             height: 35px;
             margin: 5px 5px 0 0;
-            padding: 1px;
-           
+            padding: 1px;  
         }
-
         &-item{
             font-size: 12px;
             width: 30px;
@@ -257,12 +245,10 @@
             margin: 8px 12px 0px 0;
             
         }
-
         .active-box span{
             margin: 1px 8px 0 0 ;
         }
     }
-
     &__counts{
         width: 45px;
         &-btn{
@@ -281,6 +267,4 @@
         bottom: 15px;
 
     }
-
-   
 }

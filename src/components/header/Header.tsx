@@ -16,10 +16,9 @@ export  const Header:React.FC<HeaderProps> =(props) =>  {
   
 
   return (
-
-    <div className="navbar">
-      <div className="container">
-        <div className="navbar__categories">     
+       <div className="navbar">
+         <div className="container">
+          <div className="navbar__categories">     
           {props.category.map((item: any) => {
             return (
               <NavLink  
@@ -33,14 +32,11 @@ export  const Header:React.FC<HeaderProps> =(props) =>  {
         <div className="navbar__logo">
             <img src={Logo} alt="Logo" />
         </div>
-       
         <div className="navbar__actions">
           <SelectCurrency/>
           <Basket />
         </div>
       </div>
     </div>
-
-    
   )
 }

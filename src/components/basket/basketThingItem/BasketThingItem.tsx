@@ -50,6 +50,8 @@ export const BasketThingItem: React.FC<BasketThingItemProps> = (props) => {
     }
 
     const changeCurrentImgHandler = (value:number) => {
+        console.log(1);
+        
         let length = props.product.product.gallery.length
         if(currentCountImg + value < 0){return setCurrentCountImg(length)}
         if(currentCountImg + value > length){return setCurrentCountImg(0)}
@@ -65,6 +67,9 @@ export const BasketThingItem: React.FC<BasketThingItemProps> = (props) => {
             setPrice(parseFloat((item.amount * productCount).toFixed(2))) 
    }})
  }
+
+
+ 
 
 return (
     <div className='basketThingItem'>
@@ -124,11 +129,7 @@ return (
                                 )
                             })
                         }  
-    
                     </div>
-    
-                    
-              
                     <div className="basketThingItem__countBox">
                         <div className="basketThingItem__counts">
                             <div 
@@ -143,8 +144,8 @@ return (
                         </div>
                         <div className="basketThingItem__img">
                            <div className='basketThingItem__changers'>
-                                  <span className='basketThingItem__changer'onClick={() =>changeCurrentImgHandler(1)} >+</span>
-                                  <span className='basketThingItem__changer' onClick={() =>changeCurrentImgHandler(-1)}>-</span>
+                                  <span className='basketThingItem__changer'onClick={() => changeCurrentImgHandler(1)} >+</span>
+                                  <span className='basketThingItem__changer' onClick={() => changeCurrentImgHandler(-1)}>-</span>
                            </div>
                             <img src={currentImg} alt="" />
                         </div>

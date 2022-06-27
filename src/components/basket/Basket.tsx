@@ -4,6 +4,7 @@ import { Type } from 'typescript'
 import useLocalStorage from '../../hooks/useLocalStorage'
 import { Loader } from '../loader/Loader'
 import './Basket.scss'
+import { BasketEmpty } from './BasketEmpty/BasketEmpty'
 import { BasketThingItem } from './basketThingItem/BasketThingItem'
 
 
@@ -49,7 +50,7 @@ const Basket = (props:any) => {
                 product={currentBasketItem.data}
                
                 />})
-            : <div>Basket empty</div>
+            : <BasketEmpty/>
           }
         </div>
         <div className="basket__line" />
