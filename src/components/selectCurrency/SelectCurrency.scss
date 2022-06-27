@@ -1,4 +1,5 @@
 .selectCurrency {
+    z-index: 999;
     width: 90px;
     position: relative;
 
@@ -27,6 +28,7 @@
     }
 
     &__body{
+        background-color: #fff;
         width: 114px;
         display: none;
         position: absolute;

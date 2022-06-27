@@ -90,6 +90,15 @@
         font-weight: 600;
     }
 
+    &__btn a {
+        text-decoration: none;
+    }
+    &__btn a:hover {
+        transition: background-color 0.5s;
+        color: #FFFFFF;
+        background-color: $font-color-hover;
+    }
+
     &__btn:hover {
         transition: background-color 0.5s;
         color: #FFFFFF;

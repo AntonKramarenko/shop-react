@@ -42,7 +42,7 @@ const Basket = (props:any) => {
         { (basket.length > 0)
              ? basket.map((currentBasketItem:any, index:number) => {
                 return  <BasketThingItem 
-                key={index + '2323'} 
+                key={index} 
                 currentBasketID={currentBasketItem.key}
                 count ={currentBasketItem.value}
                 selectAttributes={currentBasketItem.selectAttributes}

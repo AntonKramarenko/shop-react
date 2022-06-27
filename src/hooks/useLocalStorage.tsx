@@ -34,16 +34,10 @@ export default function useLocalStorage() {
     const  reSetStorage = (name:string, value:Array<{}>) => {
 
         const store = fifterArrayOfObjects(value)
-        console.log(store);
-        
-
         dispatch(changeBasket(store)) // add state redux
         localStorage.removeItem(name)
         localStorage.setItem(name, JSON.stringify(store))
 
-        // dispatch(changeBasket(value)) // add state redux
-        // localStorage.removeItem(name)
-        // localStorage.setItem(name, JSON.stringify(value))
     }
 
     const  addToBasketHandler = (id:string, selectAttributes:Array<Type>,  data:Array<Type>) => {

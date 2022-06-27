@@ -4,6 +4,7 @@ import Logo from '../../assets/img/header_logo.png'
 import SelectCurrency from '../selectCurrency/SelectCurrency';
 import Basket from '../basket/basketBox/BasketBox';
 import useLocalStorage from '../../hooks/useLocalStorage';
+import { BackgroundPlace } from '../BackgroundPlace/BackgroundPlace';
 
 
 interface HeaderProps{
@@ -15,6 +16,7 @@ export  const Header:React.FC<HeaderProps> =(props) =>  {
   
 
   return (
+
     <div className="navbar">
       <div className="container">
         <div className="navbar__categories">     
@@ -38,5 +40,7 @@ export  const Header:React.FC<HeaderProps> =(props) =>  {
         </div>
       </div>
     </div>
+
+    
   )
 }

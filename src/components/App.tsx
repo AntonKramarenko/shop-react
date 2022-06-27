@@ -8,6 +8,7 @@ import {ShopBoard} from './shopBoard/ShopBoard';
 import {Loader} from './loader/Loader'
 import { ProductPage } from './productPage/ProductPage';
 import  Basket  from './basket/Basket';
+import { BackgroundPlace } from './BackgroundPlace/BackgroundPlace';
  
 export default function App()  {
 
@@ -32,6 +33,7 @@ if(loading) {
 return (
     <BrowserRouter>
         <div className="app">
+        <BackgroundPlace />
             <div className="wrap">
               <Header category={categories}/>
                  <Routes>

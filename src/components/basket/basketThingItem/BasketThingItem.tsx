@@ -27,10 +27,11 @@ export const BasketThingItem: React.FC<BasketThingItemProps> = (props) => {
     const storage = useLocalStorage()
 
 
-
+    
     useEffect(()=>{
-        storage.changeAttributesHandler(props.product.product.id, props.currentBasketID, selectAttributes, productCount)
         addCurrentPrice(props.product.product.prices)
+        storage.changeAttributesHandler(props.product.product.id, props.currentBasketID, selectAttributes, productCount)
+        
        
     },[productCount,selectAttributes,currency])
 
@@ -61,7 +62,7 @@ export const BasketThingItem: React.FC<BasketThingItemProps> = (props) => {
    prices.map((item:any) => {
         if(item.currency.label === currency.label){
             setCurrentSymbol(`${item.currency.symbol}`)
-            setPrice(item.amount * productCount) 
+            setPrice(parseFloat((item.amount * productCount).toFixed(2))) 
    }})
  }
 
@@ -72,25 +73,25 @@ return (
                          <div className="basketThingItem__name">{props.product.product.brand}</div>
                          <div className="basketThingItem__price">{currentSymbol} {price}</div>
                         {
-                           props.product.product.attributes.map((attributes:any, indexAttribute:number) => {
+                           props.product.product.attributes.map((attributes:any, indexAttribute:number) => {                         
                                if(attributes.name === 'Color'){
                                     return (
-                                     <div key={indexAttribute} className="productPage__attributes">
-                                        <div className="productPage__title">{attributes.name}</div>
-                                        <div className="productPage__attributes-items">
+                                     <div key={attributes.id} className="basketThingItem___attributes">
+                                        <div className="basketThingItem___title">{attributes.name}</div>
+                                        <div className="basketThingItem___attributes-items">
                                                  {attributes.items.map((item:any, index:number) =>{
                                                     return (
                                                         <span 
-                                                        key={index} 
+                                                        key={item.id} 
                                                         className={
                                                             (props.selectAttributes.length !== 0 && item.id === selectAttributes[indexAttribute][attributes.name])
                                                                 ? 'active-box'
                                                                 : ''
                                                         }
                                                         >
-                                                            <span key={index} 
+                                                            <span key={item.id} 
                                                             id={item.id}
-                                                            className='productPage__attributes-item' 
+                                                            className='basketThingItem___attributes-item' 
                                                             onClick={() => selectAttributesHandler(attributes.name, item.id)}
                                                             style={{backgroundColor: `${item.value}`}} /> 
                                                         </span>
@@ -100,9 +101,9 @@ return (
                                     ) 
                                 }
                                 return (
-                                    <div key={indexAttribute} className="productPage__attributes">
-                                    <div className="productPage__title">{attributes.name}:</div>
-                                    <div className="productPage__attributes-items">
+                                    <div key={attributes.id} className="basketThingItem___attributes">
+                                    <div className="basketThingItem___title">{attributes.name}:</div>
+                                    <div className="basketThingItem___attributes-items">
                                              {attributes.items.map((item:any, indexItem:number) =>{
                                              
                                                 return (
@@ -111,8 +112,8 @@ return (
                                                     key={indexItem} 
                                                     className={
                                                         (props.selectAttributes.length !== 0 && item.id === selectAttributes[indexAttribute][attributes.name] )
-                                                            ? 'productPage__attributes-item active-attribute'
-                                                            : 'productPage__attributes-item'
+                                                            ? 'basketThingItem___attributes-item active-attribute'
+                                                            : 'basketThingItem___attributes-item'
                                                     }
                                                      onClick={() => selectAttributesHandler(attributes.name, item.id)}
                                                     >
